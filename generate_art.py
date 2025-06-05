@@ -1,31 +1,35 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
+import requests
 from dotenv import load_dotenv
-load_dotenv()  # Load environment variables from .env
+
+# Load environment variables
+load_dotenv()
+API_URL = "https://stablediffusionapi.com/api/v4/dreambooth"
 API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 
+# Initialize Flask app
+app = Flask(__name__)
+CORS(app)  # Enable CORS
 
-client = InferenceClient(
-    provider="fal-ai",
-    api_key=os.environ["HF_TOKEN"],
-)
+@app.route('/generate_art', methods=['POST'])
+def generate_art():
+    data = request.get_json()
+    prompt = data.get("prompt", "")
 
-# output is a PIL.Image object
-image = client.text_to_image(
-    "Astronaut riding a horse",
-    model="stabilityai/stable-diffusion-3.5-large",
-)
-def generate_image(prompt):
-    import requests
-    
-    API_URL = "https://stablediffusionapi.com/api/v4/dreambooth" 
-    API_KEY = os.getenv("huggingface_api_key"  
-    
-    data = {"prompt": prompt}
+    if not prompt:
+        return jsonify({"error": "No prompt provided"}), 400
+
     headers = {"Authorization": f"Bearer {API_KEY}"}
-    
-    response = requests.post(API_URL, json=data, headers=headers)
-    
+    payload = {"prompt": prompt}
+
+    response = requests.post(API_URL, json=payload, headers=headers)
+
     if response.status_code == 200:
-        return response.json()["image_url"]
+        return jsonify({"image_url": response.json().get("image_url", "Error generating image")})
     else:
-        return "Error generating image."
+        return jsonify({"error": f"API request failed with status {response.status_code}"}), response.status_code
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000)
