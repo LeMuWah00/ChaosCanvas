@@ -47,12 +47,12 @@
         return;
     }
 
-fetch('https://chaoscanvasai.onrender.com/generate_art', {  // Removed the misplaced bracket
+fetch('https://chaoscanvasai.onrender.com/generate_art', {  // Corrected object closure
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt: userPrompt })
+    body: JSON.stringify({ prompt: userPrompt })  // The object `{}` closes properly here
 })
-.then(response => response.json())  // Correct placement of .then()
+.then(response => response.json())  // This now follows a correctly closed fetch options object
 .then(data => {
     console.log("API Response:", data); // Debugging log
     if (data.image_url) {
@@ -62,10 +62,13 @@ fetch('https://chaoscanvasai.onrender.com/generate_art', {  // Removed the mispl
         document.body.appendChild(imgElement);
     } else {
         console.error("Error generating art:", data.error);
+        alert("Oops! Something went wrong. Try again.");
     }
 })
-.catch(error => console.error("Fetch error:", error));
-}
+.catch(error => {
+    console.error("Fetch error:", error);
+    alert("Failed to generate art. Please check your connection or try again.");
+});
     </script>
 
 </body>
