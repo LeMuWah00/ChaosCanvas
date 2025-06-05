@@ -51,7 +51,6 @@ fetch('https://chaoscanvasai.onrender.com/generate_art', {', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ prompt: userPrompt })
-})
 .then(response => response.json())
 .then(data => {
     console.log("API Response:", data); // Debugging log
