@@ -35,6 +35,17 @@
 <body>
     <h1>The Chaos Canvas</h1>
     <p>Welcome to a world where rules are broken, ideas fly free, and creation knows no limits.</p>
-    <button onclick="alert('The chaos begins now!')">Start Creating</button>
+    <button onclick="generateArt()">Create AI Art</button></button><script>
+function generateArt() {
+    let prompt = prompt("Enter your artistic vision:");
+    
+    fetch('/generate_art.py?prompt=' + encodeURIComponent(prompt))
+        .then(response => response.text())
+        .then(imageUrl => {
+            document.body.innerHTML += `<img src="${imageUrl}" alt="AI Art">`;
+        })
+        .catch(error => alert("Error generating art: " + error));
+}
+</script>
 </body>
 </html>
