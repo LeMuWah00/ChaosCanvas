@@ -3,49 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Chaos Canvas</title>
+    <title>ChaosCanvasAI</title>
     <style>
         body {
-            background-color: black;
-            color: white;
             font-family: Arial, sans-serif;
+            background-color: #1a1a2e;
+            color: #eaeaea;
             text-align: center;
-            padding: 50px;
-        }
-        h1 {
-            font-size: 50px;
-            text-transform: uppercase;
-        }
-        p {
-            font-size: 18px;
+            padding: 20px;
         }
         button {
-            background-color: purple;
+            background-color: #007bff;
             color: white;
-            padding: 15px 30px;
-            font-size: 20px;
             border: none;
+            padding: 10px 20px;
+            font-size: 18px;
             cursor: pointer;
+            margin-top: 20px;
         }
         button:hover {
-            background-color: darkmagenta;
+            background-color: #0056b3;
+        }
+        img {
+            margin-top: 20px;
+            max-width: 80%;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>The Chaos Canvas</h1>
-    <p>Welcome to a world where rules are broken, ideas fly free, and creation knows no limits.</p>
-    <button onclick="generateArt()">Create AI Art</button><script>
-function generateArt() {
-    let prompt = prompt("Enter your artistic vision:");
-    
-    fetch('/generate_art.py?prompt=' + encodeURIComponent(prompt))
-        .then(response => response.text())
-        .then(imageUrl => {
-            document.body.innerHTML += `<img src="${imageUrl}" alt="AI Art">`;
-        })
-        .catch(error => alert("Error generating art: " + error));
-}
-</script>
+
+    <h1>Welcome to ChaosCanvasAI</h1>
+    <p>Enter a prompt and let AI create your masterpiece!</p>
+
+    <button onclick="generateArt()">Create AI Art</button>
+
+    <script>
+        function generateArt() {
+            let prompt = prompt("Enter your artistic vision:");
+            
+            fetch('/generate_art.py?prompt=' + encodeURIComponent(prompt))
+                .then(response => response.text())
+                .then(imageUrl => {
+                    let imgElement = document.createElement("img");
+                    imgElement.src = imageUrl;
+                    imgElement.alt = "AI Art";
+                    document.body.appendChild(imgElement);
+                })
+                .catch(error => alert("Error generating art: " + error));
+        }
+    </script>
+
 </body>
 </html>
