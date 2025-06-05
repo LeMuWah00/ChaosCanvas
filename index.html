@@ -47,7 +47,7 @@
         return;
     }
 
-    fetch('/generate_art.py?prompt=' + encodeURIComponent(userPrompt))
+    fetch('https://your-deployed-site.com/generate_art.py?prompt=' + encodeURIComponent(userPrompt))
         .then(response => response.text())
         .then(imageUrl => {
             let imgElement = document.createElement("img");
