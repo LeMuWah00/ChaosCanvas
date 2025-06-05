@@ -39,19 +39,24 @@
     <button onclick="generateArt()">Create AI Art</button>
 
     <script>
-        function generateArt() {
-            let prompt = prompt("Enter your artistic vision:");
-            
-            fetch('/generate_art.py?prompt=' + encodeURIComponent(prompt))
-                .then(response => response.text())
-                .then(imageUrl => {
-                    let imgElement = document.createElement("img");
-                    imgElement.src = imageUrl;
-                    imgElement.alt = "AI Art";
-                    document.body.appendChild(imgElement);
-                })
-                .catch(error => alert("Error generating art: " + error));
-        }
+       function generateArt() {
+    let userPrompt = window.prompt("Enter your artistic vision:"); // Ensure it's properly initialized
+    
+    if (!userPrompt) {
+        alert("You need to enter a prompt!");
+        return;
+    }
+
+    fetch('/generate_art.py?prompt=' + encodeURIComponent(userPrompt))
+        .then(response => response.text())
+        .then(imageUrl => {
+            let imgElement = document.createElement("img");
+            imgElement.src = imageUrl;
+            imgElement.alt = "AI Art";
+            document.body.appendChild(imgElement);
+        })
+        .catch(error => alert("Error generating art: " + error));
+}
     </script>
 
 </body>
