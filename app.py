@@ -13,9 +13,9 @@ API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 app = Flask(__name__, template_folder="templates", static_folder="static")
 CORS(app)  # Enable CORS
 
-@app.route('/')
+@app.route('/', methods=['GET', 'HEAD'])
 def home():
-    return render_template("index.html")
+    return "ChaosCanvasAI is live!", 200
 
 @app.route('/generate_art', methods=['POST'])
 def generate_art():
@@ -35,5 +35,9 @@ def generate_art():
     else:
         return jsonify({"error": f"API request failed with status {response.status_code}"}), response.status_code
 
+@app.errorhandler(Exception)
+def handle_exception(e):
+    return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=10000)
