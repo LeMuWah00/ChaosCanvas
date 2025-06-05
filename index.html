@@ -47,15 +47,24 @@
         return;
     }
 
-    fetch('https://your-deployed-site.com/generate_art.py?prompt=' + encodeURIComponent(userPrompt))
-        .then(response => response.text())
-        .then(imageUrl => {
-            let imgElement = document.createElement("img");
-            imgElement.src = imageUrl;
-            imgElement.alt = "AI Art";
-            document.body.appendChild(imgElement);
-        })
-        .catch(error => alert("Error generating art: " + error));
+fetch('https://chaoscanvasai.netlify.app/generate_art', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt: userPrompt })
+})
+.then(response => response.json())
+.then(data => {
+    console.log("API Response:", data); // Debugging log
+    if (data.image_url) {
+        let imgElement = document.createElement("img");
+        imgElement.src = data.image_url;
+        imgElement.alt = "AI Art";
+        document.body.appendChild(imgElement);
+    } else {
+        console.error("Error generating art:", data.error);
+    }
+})
+.catch(error => console.error("Fetch error:", error));
 }
     </script>
 
