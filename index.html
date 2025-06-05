@@ -47,11 +47,12 @@
         return;
     }
 
-fetch('https://chaoscanvasai.onrender.com/generate_art',  {
+fetch('https://chaoscanvasai.onrender.com/generate_art', {  // Removed the misplaced bracket
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ prompt: userPrompt })
-.then(response => response.json())
+})
+.then(response => response.json())  // Correct placement of .then()
 .then(data => {
     console.log("API Response:", data); // Debugging log
     if (data.image_url) {
