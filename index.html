@@ -39,36 +39,37 @@
     <button onclick="generateArt()">Create AI Art</button>
 
     <script>
-       function generateArt() {
-    let userPrompt = window.prompt("Enter your artistic vision:"); // Ensure it's properly initialized
-    
-    if (!userPrompt) {
-        alert("You need to enter a prompt!");
-        return;
-    }
+        function generateArt() {
+            let userPrompt = window.prompt("Enter your artistic vision:");
 
-fetch('https://chaoscanvasai.onrender.com/generate_art', {  // Corrected object closure
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt: userPrompt })  // The object `{}` closes properly here
-})
-.then(response => response.json())  // This now follows a correctly closed fetch options object
-.then(data => {
-    console.log("API Response:", data); // Debugging log
-    if (data.image_url) {
-        let imgElement = document.createElement("img");
-        imgElement.src = data.image_url;
-        imgElement.alt = "AI Art";
-        document.body.appendChild(imgElement);
-    } else {
-        console.error("Error generating art:", data.error);
-        alert("Oops! Something went wrong. Try again.");
-    }
-})
-.catch(error => {
-    console.error("Fetch error:", error);
-    alert("Failed to generate art. Please check your connection or try again.");
-});
+            if (!userPrompt) {
+                alert("You need to enter a prompt!");
+                return;
+            }
+
+            fetch('https://chaoscanvasai.onrender.com/generate_art', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: userPrompt })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("API Response:", data); // Debugging log
+                if (data.image_url) {
+                    let imgElement = document.createElement("img");
+                    imgElement.src = data.image_url;
+                    imgElement.alt = "AI Art";
+                    document.body.appendChild(imgElement);
+                } else {
+                    console.error("Error generating art:", data.error || "Unknown error");
+                    alert("Oops! Something went wrong. Try again.");
+                }
+            })
+            .catch(error => {
+                console.error("Fetch error:", error);
+                alert("Failed to generate art. Please check your connection or try again.");
+            });
+        }
     </script>
 
 </body>
