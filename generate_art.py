@@ -1,5 +1,8 @@
 import os
-from huggingface_hub import InferenceClient
+from dotenv import load_dotenv
+load_dotenv()  # Load environment variables from .env
+API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+
 
 client = InferenceClient(
     provider="fal-ai",
