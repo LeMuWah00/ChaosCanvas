@@ -17,8 +17,8 @@ image = client.text_to_image(
 def generate_image(prompt):
     import requests
     
-    API_URL = "https://stablediffusionapi.com/api/v4/dreambooth"  # Replace with actual API URL
-    API_KEY = os.getenv("huggingface_api_key"  # Replace with your real API key
+    API_URL = "https://stablediffusionapi.com/api/v4/dreambooth" 
+    API_KEY = os.getenv("huggingface_api_key"  
     
     data = {"prompt": prompt}
     headers = {"Authorization": f"Bearer {API_KEY}"}
